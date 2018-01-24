@@ -69,8 +69,13 @@
         SimpleLayout：以一种非常简单的方式格式化日志输出
         TTCCLayout：包含日志产生的时间、线程、类别等信息
   
-  
-  
+  slf4J与旧日志框架的关系 
+        slf4j等于commons-logging，是各种日志实现的通用入口，会根据classpath中存在下面哪一个Jar来决定具体的日志实现库。 
+        logback-classic(默认的logback实现) 
+        slf4j-jcl.jar(apache commons logging) 
+        slf4j-logj12.jar(log4j 1.2.4) 
+        slf4j-jdk14(java.util.logging) 
+
    
    
    
