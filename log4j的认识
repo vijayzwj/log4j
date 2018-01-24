@@ -1,0 +1,62 @@
+1 log4j中的root配置
+
+    root的作用是收集下面所有反馈上来的信息流并根据配置在root中appender进行输出，
+
+    只要你在looger中配置了additivity="false"，就不会反馈到root中。
+    
+2  log4j的作用
+        1).日志消息除了能打印到控制台， 还可以输出到文件，甚至可以通过邮件发送出去（例如生成环境出错的消息）
+        2).日志内容应该可以做格式化， 例如变成纯文本，XML, HTML格式等等
+        3).对于不同的Java class，不同的 package ， 还有不同级别的日志，应该可以灵活地输出到不同的文件中。
+            例如对于com.foo 这个package，所有的日志都输出到 foo.log 文件中
+            对于com.bar 这个package ，所有文件都输出到bar. log文件中
+            对于所有的ERROR级别的日志，都输出到  errors.log文件中
+        4).能对日志进行分级， 有些日志纯属debug ， 在本机或者测试环境使用， 方便程序员的调试， 生产环境完全不需要。
+        有些日志是描述错误(error)的， 在生产环境下出错的话必须要记录下来，帮助后续的分析。
+3  核心对象：LoggerEvent, Logger , Appender, Formatter, Priority 
+
+   
+4  如今的日志世界有了很多的选择 ，除了java.util.logging, log4j 之外，还有logback，tinylog 等其他工具。
+   小张想了想， 这么多日志工具，用户如果想切换了怎么办？不想用log4j了，能换到logback吗？    
+   提供一个抽象层吧， 用户用这个抽象层的API来写日志， 底层具体用什么日志工具不用关心，这样就可以移植了。 
+   小张把这抽象层就叫做Simple Logging Facade for Java，简称SLF4J。
+   由于Logback这个工具也是出自小张之手， 直接实现了SLF4J的API，所以连适配层都不需要了， 用起来速度飞快，效率最高，SLFJ4+Logback 成为了很多人的最爱！
+   
+                      应用程序
+                         |
+                         |
+                       SL4J
+                                 |        
+                               适配层
+                |        |       |       |  
+              logback  log4j  jdklog  tinylog
+              
+   对于Log4j , JDK logging, tinylog 等工具， 需要一个适配层， 把SLF4J 的API转化成具体工具的调用接口。
+   
+   
+   Logger:     不同的class, package就区分开了， 然后让Logger 和Appender关联灵活地设置日志的目的地， 并且一个Logger可以拥有多个Appender，
+               同一条日志消息可以输出到多个地方， 完美！
+   
+   Appender:   ConsoleAppender  FileAppender  SMTPAppender
+   
+                      LoggerEvent
+                      
+                      
+   Formatter: SimpleFormatter XMLFormatter HTMLFormatter
+   
+   
+   Priority:  DEBUG, INFO, WARN, ERROR, FATAL
+  
+  
+  a)只要在Appender上增加一个属性，就叫做Priority， 
+  如果用户要输出的日志是DEBUG级别， 但是有个FileAppender的Priority是 ERROR级别，
+  那这个日志就不用在这个FileAppender中输出了 ，因为ERROR级别比DEBUG级别高嘛。
+
+  b)同理， 在Logger类上也可以增加一个Priority的属性，用户可以去设置， 
+  如果一个Logger的Priority是ERROR， 而用户调用了这个Logger的debug方法， 那这个debug 的消息也不会输出。
+   
+   
+   
+   
+   
+   
