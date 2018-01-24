@@ -41,8 +41,8 @@
    
                       LoggerEvent
                       
-                      
-   Formatter: SimpleFormatter XMLFormatter HTMLFormatter
+   Layout：格式化输出日志信息 Formatter: SimpleFormatter XMLFormatter HTMLFormatter                   
+  
    
    
    Priority:  DEBUG, INFO, WARN, ERROR, FATAL
