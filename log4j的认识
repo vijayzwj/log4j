@@ -54,6 +54,16 @@
 
   b)同理， 在Logger类上也可以增加一个Priority的属性，用户可以去设置， 
   如果一个Logger的Priority是ERROR， 而用户调用了这个Logger的debug方法， 那这个debug 的消息也不会输出。
+  
+  
+  很显然，log4j的日志级别有下面的关系：
+
+    OFF > FATAL > ERROR > WARN > INFO > DEBUG > ALL
+        log4j在写日志的时候只有当当前写日志的级别大于等于当前日志实例的配置级别的时候，
+        日志写操作才生效，比如当前日志实例的配置级别为INFO，那么log.info会写成功，而log.debug则不会写。
+  
+  
+  
    
    
    
